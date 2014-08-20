@@ -1,0 +1,174 @@
+<html>
+	<style type="text/css">
+		table.myTable { border-collapse:collapse; }
+		table.myTable td, table.myTable th { border:1px solid black;padding:5px; }
+	</style>
+
+	<b>Install</b>
+	<br>
+	<ul>
+		<li>
+			1. Apache Configuration -  add mod_rewrite
+		</li>
+		<li>
+			2. Set MySQL config (config/mysqldb.php) and extract schema.mysql.sql
+		</li>
+		<li>
+			3. If use php5.5 need install json_encode <br>
+			Linux:
+<pre>
+sudo apt-get install php5-json
+Then of course make sure you restart Apache:
+
+sudo service apache2 restart
+Or if you are using PHP-FPM:
+
+sudo service php5-fpm restart
+</pre>
+			<a href="http://stackoverflow.com/questions/18239405/php-fatal-error-call-to-undefined-function-json-decode">More detail</a>
+		</li>
+	</ul>
+	<br>
+	<b>Request URL</b>
+	<br>
+	<table class="myTable">
+		<tr>
+			<th>Task Question</th>
+			<th>Url</th>
+			<th>Method</th>
+			<th>Action</th>
+			<th>Response</th>
+			<th>Http Code</th>
+		</tr>
+		<tr>
+			<td></td>
+			<td>/users</td>
+			<td>POST</td>
+			<td>Create new user, return user_id</td>
+			<td>
+				{
+					data:{id:int},
+					error:''
+				}
+			</td>
+			<td>201</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>/users/1/score/10</td>
+			<td>POST</td>
+			<td>Add 10 score for user_id 1</td>
+			<td></td>
+			<td>200</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>/users/1/score/10</td>
+			<td>POST</td>
+			<td>Error add 10 score for user_id 1</td>
+			<td>
+				{
+					data:{},
+					error:string
+				}
+			</td>
+			<td>400</td>
+		</tr>
+		<tr>
+			<td><b>How many total players are there?</b></td>
+			<td>/users</td>
+			<td>GET</td>
+			<td>Get total users(players)</td>
+			<td>
+				{
+					data:{total:int},
+					error:''
+				}
+			</td>
+			<td>200</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>/users/1</td>
+			<td>GET</td>
+			<td>Get total score user_id 1</td>
+			<td>
+				{
+					data:{id:int, score:int},
+					error:''
+				}
+			</td>
+			<td>200</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>/users/1</td>
+			<td>GET</td>
+			<td>Error get total score user_id 1</td>
+			<td>
+				{
+					data:{},
+					error:string
+				}
+			</td>
+			<td>400</td>
+		</tr>
+		<tr>
+			<td><b>How many people played the game today?</b></td>
+			<td>/users/byDate</td>
+			<td>GET</td>
+			<td>Get count users(players) played today</td>
+			<td>
+				{
+					data:{total:int},
+					error:''
+				}
+			</td>
+			<td>200</td>
+		</tr>
+		<tr>
+			<td><b>How many people played the game yyyy/mm/dd?</b></td>
+			<td>/users/byDate/2014/08/15</td>
+			<td>GET</td>
+			<td>Get count users(players) played 2014/08/15</td>
+			<td>
+				{
+					data:{total:int},
+					error:''
+				}
+			</td>
+			<td>200</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>/users/byDate/2014/08/15</td>
+			<td>GET</td>
+			<td>Error get count users(players) played 2014/08/15</td>
+			<td>
+				{
+					data:{},
+					error:string
+				}
+			</td>
+			<td>400</td>
+		</tr>
+		<tr>
+			<td><b>List the top 10 players(by score)</b></td>
+			<td>/users/listByScore/limit/10</td>
+			<td>GET</td>
+			<td>Get list users by score</td>
+			<td>
+				{
+					data:[
+						{id:int, score:int},
+						{id:int, score:int}
+					],
+					error:''
+				}
+			</td>
+			<td>200</td>
+		</tr>
+	</table>
+	<br>
+	<b>All other Requests return Http Code 404</b>
+</html>
